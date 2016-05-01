@@ -1,0 +1,277 @@
+<!DOCTYPE Map>
+<Map background-color="#666" srs="+proj=utm +zone=35 +ellps=GRS80 +units=m +no_defs">
+  <FontSet name="mapfonts">
+    <Font face-name="DejaVu Sans Book"/>
+  </FontSet>
+
+  <FontSet name="mapfonts_i">
+    <Font face-name="DejaVu Sans Oblique"/>
+  </FontSet>
+
+  <!-- SYVYYSALUE -->
+
+  <Style name="styleSyvyysalue" filter-mode="first">
+    <Rule>
+      <Filter>[mindepth] &lt;= 0</Filter>
+      <PolygonSymbolizer fill="#ccc" gamma="0.5"/>
+      <LineSymbolizer stroke-width="0"/>
+    </Rule>
+
+    <Rule>
+      <Filter>[mindepth] &lt; 10</Filter>
+      <PolygonSymbolizer fill="#ddd" gamma="0.5"/>
+      <LineSymbolizer stroke-width="0"/>
+    </Rule>
+
+    <Rule>
+      <Filter>[mindepth] &lt; 20</Filter>
+      <PolygonSymbolizer fill="#eee" gamma="0.5"/>
+      <LineSymbolizer stroke-width="0"/>
+    </Rule>
+
+    <Rule>
+      <Filter>[mindepth] &gt;= 20</Filter>
+      <PolygonSymbolizer fill="#fff" gamma="0.5"/>
+      <LineSymbolizer stroke-width="0"/>
+    </Rule>
+  </Style>
+
+  <Layer name="layerSyvyysalue" srs="+proj=utm +zone=35 +ellps=GRS80 +units=m +no_defs ">
+    <StyleName>styleSyvyysalue</StyleName>
+    <Datasource>
+      <Parameter name="type">sqlite</Parameter>
+      <Parameter name="file">data/meri.sqlite</Parameter>
+      <Parameter name="key_field">OGC_FID</Parameter>
+      <Parameter name="table">syvyysalue_a</Parameter>
+    </Datasource>
+  </Layer>
+
+  <!-- SYVYYSKÄYRÄ -->
+
+  <Style name="styleSyvyyskayra" filter-mode="first">
+    <Rule>
+      <Filter>[depth] = 3.0</Filter>
+      <LineSymbolizer stroke-width="0.5" stroke="#666" stroke-dasharray="2,4"/>
+    </Rule>
+    <Rule>
+      <Filter>[depth] = 6.0</Filter>
+      <LineSymbolizer stroke-width="0.5" stroke="#666" stroke-dasharray="5,2"/>
+    </Rule>
+  </Style>
+
+  <Layer name="layerSyvyyskayra" srs="+proj=utm +zone=35 +ellps=GRS80 +units=m +no_defs ">
+    <StyleName>styleSyvyyskayra</StyleName>
+    <Datasource>
+      <Parameter name="type">sqlite</Parameter>
+      <Parameter name="file">data/meri.sqlite</Parameter>
+      <Parameter name="key_field">OGC_FID</Parameter>
+      <Parameter name="table">syvyyskayra_v</Parameter>
+    </Datasource>
+  </Layer>
+
+
+  <!-- VAYLA-ALUE -->
+
+  <Style name="styleVaylaalue" filter-mode="first">
+    <Rule>
+      <Filter>[vayalue_sy] &gt;= 8</Filter>
+      <PolygonSymbolizer fill="#000" fill-opacity="0.1" gamma="0.0" comp-op="multiply"/>
+      <!-- <LineSymbolizer stroke="#000" stroke-width="1.0" stroke-dasharray="1,6" /> -->
+      <!--<TextSymbolizer size="14" fontset-name="mapfonts_i" margin="10" 
+        placement="interior">"|"+[haraus_syv]+"|"</TextSymbolizer>-->
+    </Rule>
+  </Style>
+
+  <Layer name="layerVaylaalue" srs="+proj=utm +zone=35 +ellps=GRS80 +units=m +no_defs ">
+    <StyleName>styleVaylaalue</StyleName>
+    <Datasource>
+      <Parameter name="type">sqlite</Parameter>
+      <Parameter name="file">data/meri.sqlite</Parameter>
+      <Parameter name="key_field">OGC_FID</Parameter>
+      <Parameter name="table">vaylaalueet</Parameter>
+    </Datasource>
+  </Layer>
+
+  <!-- TAULULINJA -->
+
+  <Style name="styleTaululinja" filter-mode="first">
+    <Rule>
+      <LineSymbolizer stroke-width="1.0" stroke="#555" stroke-dasharray="7,5"/>
+      <!-- <TextSymbolizer avoid-edges="true" placement="line" vertical-alignment="middle"
+        fontset-name="mapfonts" fill="black" placement-type="list">
+        <Format size="12" halo-radius="0.5">[kulkusyv1]</Format>
+      </TextSymbolizer> -->
+    </Rule>
+  </Style>
+
+  <Layer name="layerTaululinja" srs="+proj=utm +zone=35 +ellps=GRS80 +units=m +no_defs ">
+    <StyleName>styleTaululinja</StyleName>
+    <Datasource>
+      <Parameter name="type">sqlite</Parameter>
+      <Parameter name="file">data/meri.sqlite</Parameter>
+      <Parameter name="table">taululinja</Parameter>
+      <Parameter name="key_field">OGC_FID</Parameter>
+    </Datasource>
+  </Layer>
+
+  <!-- NAVIGOINTILINJAT -->
+
+  <Style name="styleNavigointilinja" filter-mode="first">
+    <Rule>
+      <Filter>[length] &gt; 1000 and [tosisuunta] &gt; -1</Filter>
+      <LineSymbolizer stroke-width="1.0" stroke="#000" stroke-opacity="0.65"/>
+      <TextSymbolizer avoid-edges="true" placement="line" vertical-alignment="middle"
+        fontset-name="mapfonts" fill="black" placement-type="list" dy="-7" opacity="0.65"
+        label-position-tolerance="10" max-char-angle-delta="0" margin="10"
+        minimum-path-length="50">
+        <Format size="12" halo-radius="0.5">[navlin_syv] + "/" + [tosisuunta]</Format>
+      </TextSymbolizer>
+    </Rule>
+    <Rule>
+      <LineSymbolizer stroke-width="1.0" stroke="#000" stroke-opacity="0.65"/>
+      <TextSymbolizer avoid-edges="true" placement="line" vertical-alignment="middle"
+        fontset-name="mapfonts" fill="black" placement-type="list" dy="-7" opacity="0.65"
+        label-position-tolerance="10" max-char-angle-delta="0" margin="10" 
+        minimum-path-length="50">
+        <Format size="12" halo-radius="0.5">[navlin_syv]</Format>
+      </TextSymbolizer>
+    </Rule>
+  </Style>
+
+  <Layer name="layerNavigointilinja" srs="+proj=utm +zone=35 +ellps=GRS80 +units=m +no_defs">
+    <StyleName>styleNavigointilinja</StyleName>
+    <Datasource>
+      <Parameter name="type">sqlite</Parameter>
+      <Parameter name="file">data/meri.sqlite</Parameter>
+      <Parameter name="table">v_navigointilinjat</Parameter>
+      <Parameter name="key_field">OGC_FID</Parameter>
+    </Datasource>
+  </Layer>
+
+  <!-- VAYLAT -->
+  <!--
+  <Style name="styleVayla" filter-mode="first">
+    <Rule>
+      <Filter>[tila] = 1 and [kulkusyv1] &gt; 2 and [kulkusyv1] &lt; 8</Filter>
+      <LineSymbolizer stroke-width="1.0" stroke="#000"/>
+      <TextSymbolizer avoid-edges="true" placement="line" vertical-alignment="middle"
+        fontset-name="mapfonts" fill="black" placement-type="list" dy="-7">
+        <Format size="12" halo-radius="0.5">[kulkusyv1]</Format>
+      </TextSymbolizer>
+    </Rule>
+
+    <Rule>
+      <Filter>[tila] = 1 and [kulkusyv1] &lt;= 2</Filter>
+      <LineSymbolizer stroke-width="1.0" stroke="#000" stroke-dasharray="2,2"/> 
+      <TextSymbolizer avoid-edges="true" placement="line" vertical-alignment="middle"
+        fontset-name="mapfonts" fill="black" placement-type="list" dy="-7">
+        <Format size="12" halo-radius="0.5">[kulkusyv1]</Format>
+      </TextSymbolizer>
+    </Rule>
+
+    <Rule>
+      <Filter>[tila] = 1 and [kulkusyv1] &gt;= 8</Filter>
+      <LineSymbolizer stroke-width="1.0" stroke="#000"/> 
+      <TextSymbolizer avoid-edges="true" placement="line" vertical-alignment="middle"
+        fontset-name="mapfonts" fill="black" placement-type="list" dy="-7">
+        <Format size="12" halo-radius="0.5">[kulkusyv1]</Format>
+      </TextSymbolizer>
+    </Rule>
+
+    <Rule>
+      <Filter>[tila] = 1</Filter>
+      <LineSymbolizer stroke-width="1.0" stroke="#000" stroke-dasharray="2,2"/> 
+    </Rule>
+  </Style>
+
+  <Layer name="layerVayla" srs="+proj=utm +zone=35 +ellps=GRS80 +units=m +no_defs ">
+    <StyleName>styleVayla</StyleName>
+    <Datasource>
+      <Parameter name="type">sqlite</Parameter>
+      <Parameter name="file">data/meri.sqlite</Parameter>
+      <Parameter name="table">v_vaylat</Parameter>
+      <Parameter name="key_field">OGC_FID</Parameter>
+    </Datasource>
+  </Layer>
+  -->
+  <!-- TURVALAITTEET -->
+
+  <Style name="styleTurvalaite" filter-mode="first">
+    <Rule>
+      <!-- poiju/viitta -->
+      <Filter>[ty_jnr] = 9 or [ty_jnr] = 10</Filter>
+      <PointSymbolizer file="symbols/seamark_buoy_[navl_tyyp].svg" transform="scale(0.03)" 
+        allow-overlap="true" ignore-placement="true"/>
+    </Rule>
+
+    <Rule>
+      <!-- reunamerkki -->
+      <Filter>[ty_jnr] = 7</Filter>
+      <PointSymbolizer file="symbols/seamark_beacon_[navl_tyyp].svg" transform="scale(0.03)" 
+        allow-overlap="true" ignore-placement="true"/>
+    </Rule>
+
+    <Rule>
+      <!-- linjamerkki, rakennetieto on -->
+      <Filter>[ty_jnr] = 3 and [rakt_tyyp] > 0</Filter>
+      <PointSymbolizer file="symbols/structure_unsymbolized.svg" transform="scale(0.03)" 
+        allow-overlap="true" ignore-placement="true"/>
+    </Rule>
+
+    <Rule>
+      <!-- linjamerkki, ei rakennetietoa (ol. linjataulu) -->
+      <Filter>[ty_jnr] = 3</Filter>
+      <PointSymbolizer file="symbols/seamark_lead.svg" transform="scale(0.03)" 
+        allow-overlap="true" ignore-placement="true"/>
+    </Rule>
+
+    <!--
+    <Rule>
+      <TextSymbolizer fontset-name="mapfonts" size="12" placement="point">"["+[ty_jnr]+","+[rakt_tyyp]+"]"</TextSymbolizer>
+    </Rule>
+    -->
+  </Style>
+
+  <Layer name="layerTurvalaite" srs="+proj=utm +zone=35 +ellps=GRS80 +units=m +no_defs ">
+    <StyleName>styleTurvalaite</StyleName>
+    <Datasource>
+      <Parameter name="type">sqlite</Parameter>
+      <Parameter name="file">data/meri.sqlite</Parameter>
+      <Parameter name="table">turvalaitteet</Parameter>
+      <Parameter name="key_field">OGC_FID</Parameter>
+    </Datasource>
+  </Layer>
+
+  <!-- SYVYYSPISTE -->
+
+  <Style name="styleSyvyyspiste" filter-mode="first">
+    <Rule>
+      <Filter>[depth_dec] &gt; 0</Filter>
+      <TextSymbolizer allow-overlap="true" placement="point" vertical-alignment="middle"
+        horizontal-alignment="middle" fontset-name="mapfonts_i" fill="black"
+        placement-type="list">
+        <Layout horizontal-alignment="left" dy="0"><Format size="12">[depth_int]</Format></Layout>
+        <Layout horizontal-alignment="right" dy="4"><Format size="10">[depth_dec]</Format></Layout>
+      </TextSymbolizer>
+    </Rule>
+    <Rule>
+      <Filter>[depth_dec] = 0</Filter>
+      <TextSymbolizer allow-overlap="true" placement="point" vertical-alignment="middle"
+        horizontal-alignment="middle" fontset-name="mapfonts_i" fill="black"
+        placement-type="list">
+        <Layout horizontal-alignment="left" dy="0"><Format size="12">[depth_int]</Format></Layout>
+      </TextSymbolizer>
+    </Rule>
+  </Style>
+
+  <Layer name="layerSyvyyspiste" srs="+proj=utm +zone=35 +ellps=GRS80 +units=m +no_defs ">
+    <StyleName>styleSyvyyspiste</StyleName>
+    <Datasource>
+      <Parameter name="type">sqlite</Parameter>
+      <Parameter name="file">data/meri.sqlite</Parameter>
+      <Parameter name="table">v_syvyyspiste</Parameter>
+      <Parameter name="key_field">OGC_FID</Parameter>
+    </Datasource>
+  </Layer>
+
+</Map>
