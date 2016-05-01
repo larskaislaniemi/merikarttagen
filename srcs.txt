@@ -1,0 +1,12 @@
+350000,6650000,420000,6685000
+avoin navigointilinjat
+rajoitettu syvyyspiste_p
+rajoitettu syvyysalue_a
+avoin loistot
+avoin rantarakenteet_v
+avoin taululinja
+avoin turvalaitteet
+avoin valtakunnan_raja_v
+avoin vaylat
+rajoitettu syvyyskayra_v
+avoin vaylaalueet
