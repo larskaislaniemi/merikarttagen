@@ -4,7 +4,7 @@
 for f in *.xml
 do 
     #ogr2ogr $updatestring -append -f SQLite $FILENAME $f -dsco SPATIALITE=yes
-    ogr2ogr -f PostgreSQL -lco OVERWRITE=yes PG:"dbname='meri' host='localhost' port='5432' user='meri' password='meri123'" $f 
+    ogr2ogr -f PostgreSQL -overwrite PG:"dbname='meri' host='localhost' port='5432' user='meri' password='meri123'" $f 
     #updatestring="-update"
 done
 

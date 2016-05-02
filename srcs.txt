@@ -1,4 +1,4 @@
-350000,6650000,420000,6685000
+150000,6650000,720000,6885000
 avoin navigointilinjat
 rajoitettu syvyyspiste_p
 rajoitettu syvyysalue_a

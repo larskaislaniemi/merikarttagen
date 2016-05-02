@@ -252,6 +252,8 @@
 
   <Style name="styleSyvyyspiste" filter-mode="first">
     <Rule>
+      <MinScaleDenominator>0</MinScaleDenominator>
+      <MaxScaleDenominator>70000</MaxScaleDenominator>
       <Filter>[depth_dec] &gt; 0</Filter>
       <TextSymbolizer allow-overlap="true" placement="point" vertical-alignment="middle"
         horizontal-alignment="middle" fontset-name="mapfonts_i" fill="black"

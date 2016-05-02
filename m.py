@@ -5,6 +5,22 @@ import cairo
 import numpy as np
 import sys
 
+def rotatePaper(size):
+	newsize = [0,0]
+	newsize[0] = size[1]
+	newsize[1] = size[0]
+	return newsize
+
+EXTEND_TO_FULLPAGE = False
+
+PAPERS = {
+	'A4': [0.210, 0.297],
+	'A3': [0.297, 0.420],
+	'A2': [0.420, 0.594],
+	'A1': [0.594, 0.841],
+	'A0': [0.841, 1.189]
+}
+
 if len(sys.argv) <= 1:
 	raise Exception("Parameter missing: map stylesheet file")
 
@@ -26,15 +42,15 @@ res_ref = 5.0  # res at which map was designed
 #paper_size = [0.05, 0.05]
 #dpi = 127.0
 
-output_type = 'png'
-paper_size = [0.286, 0.179] # x, y (m)
-dpi = 127.0
+#output_type = 'png'
+#paper_size = [0.286, 0.179] # x, y (m)
+#dpi = 127
 
-#output_type = 'pdf'
-#paper_size = [1.189, 0.841]
-#dpi = 300.0
+output_type = 'pdf'
+paper_size = PAPERS['A3']
+dpi = 300.0
 
-scale = 1.0/25000.0
+scale = 1.0/50000.0
 
 paper_size_inch = np.array(paper_size) * 100.0 / 2.54
 paper_px = paper_size_inch * dpi
@@ -51,6 +67,8 @@ if (res[0] != res[1]):
 scale_factor = res_ref / res[0]
 
 ntile = np.ceil(map_px / paper_px)
+paper_covers_px = ntile * paper_px
+paper_covers_m  = ntile * paper_size / scale
 
 print("Tiles: " + str(ntile))
 print("Resolution: " + str(res) + " m/px")
@@ -58,12 +76,13 @@ print("Resolution: " + str(res) + " m/px")
 for i in range(int(ntile[1])):
 	for j in range(int(ntile[0])):
 
-		tileminx = minx + float(j) * map_size[0] / ntile[0] 
-		tilemaxx = minx + (float(j)+1) * map_size[0] / ntile[0]
-		tileminy = miny + float(i) * map_size[1] / ntile[1]
-		tilemaxy = miny + (float(i)+1) * map_size[1] / ntile[1]
-		tilemaxx = min([tilemaxx, maxx])
-		tilemaxy = min([tilemaxy, maxy])
+		tileminx = minx + float(j) * paper_covers_m[0] / ntile[0] 
+		tilemaxx = minx + (float(j)+1) * paper_covers_m[0] / ntile[0]
+		tileminy = miny + float(i) * paper_covers_m[1] / ntile[1]
+		tilemaxy = miny + (float(i)+1) * paper_covers_m[1] / ntile[1]
+		if not EXTEND_TO_FULLPAGE:
+			tilemaxx = min([tilemaxx, maxx])
+			tilemaxy = min([tilemaxy, maxy])
 
 		print (str(tileminx) + "–" + str(tilemaxx) + "  /  " + str(tileminy) + "–" + str(tilemaxy))
 
