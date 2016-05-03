@@ -29,7 +29,7 @@ PAPERS = {
 }
 
 AREAS = {
-	'Hki-Por': [378611, 6655868, 431027, 6696444]
+	'Hki-Por': [378611, 6650868, 431027, 6696444]
 }
 
 if len(sys.argv) <= 1:
@@ -57,12 +57,12 @@ dpi_ref = 127.0 # dpi at which map was designed
 #dpi = 94
 #dpi = dpi * 4.0
 
-#output_type = 'pdf'
-#paper_size = landscapePaper(PAPERS['A3'])
-
-output_type = 'png'
+output_type = 'pdf'
 paper_size = landscapePaper(PAPERS['A3'])
-dpi = 300.0
+
+#output_type = 'png'
+#paper_size = landscapePaper(PAPERS['A3'])
+#dpi = 300.0
 
 scale = 1.0/50000.0
 
