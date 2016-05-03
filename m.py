@@ -31,10 +31,10 @@ if len(sys.argv) == 3:
 else:
 	outdir = "outdata"
 
-minx =  350000.0 #370000.0
-miny = 6650000.0 #6660000.0
-maxx =  420000.0 #400000.0
-maxy = 6685000.0 #6675000.0
+minx =   70000.0 #370000.0
+miny = 6500000.0 #6660000.0
+maxx =  680000.0 #400000.0
+maxy = 7000000.0 #6675000.0
 
 res_ref = 5.0  # res at which map was designed
 
@@ -47,7 +47,7 @@ res_ref = 5.0  # res at which map was designed
 #dpi = 127
 
 output_type = 'pdf'
-paper_size = PAPERS['A3']
+paper_size = rotatePaper(PAPERS['A0'])
 dpi = 300.0
 
 scale = 1.0/50000.0
