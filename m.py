@@ -11,7 +11,14 @@ def rotatePaper(size):
 	newsize[1] = size[0]
 	return newsize
 
-EXTEND_TO_FULLPAGE = False
+def landscapePaper(size):
+	if size[0] < size[1]:
+		newsize = rotatePaper(size)
+		return newsize
+	else:
+		return size
+
+EXTEND_TO_FULLPAGE = True
 
 PAPERS = {
 	'A4': [0.210, 0.297],
@@ -19,6 +26,10 @@ PAPERS = {
 	'A2': [0.420, 0.594],
 	'A1': [0.594, 0.841],
 	'A0': [0.841, 1.189]
+}
+
+AREAS = {
+	'Hki-Por': [378611, 6655868, 431027, 6696444]
 }
 
 if len(sys.argv) <= 1:
@@ -31,10 +42,7 @@ if len(sys.argv) == 3:
 else:
 	outdir = "outdata"
 
-minx =  350000.0 #370000.0
-miny = 6650000.0 #6660000.0
-maxx =  420000.0 #400000.0
-maxy = 6685000.0 #6675000.0
+(minx, miny, maxx, maxy) = AREAS['Hki-Por']
 
 res_ref = 7.0   # res at which map was designed
 dpi_ref = 127.0 # dpi at which map was designed
@@ -49,14 +57,14 @@ dpi_ref = 127.0 # dpi at which map was designed
 #dpi = 94
 #dpi = dpi * 4.0
 
-output_type = 'pdf'
-paper_size = rotatePaper(PAPERS['A3'])
-
 #output_type = 'pdf'
-#paper_size = PAPERS['A3']
-#dpi = 300.0
+#paper_size = landscapePaper(PAPERS['A3'])
 
-scale = 1.0/25000.0
+output_type = 'png'
+paper_size = landscapePaper(PAPERS['A3'])
+dpi = 300.0
+
+scale = 1.0/50000.0
 
 
 ###############################################################################
