@@ -10,12 +10,23 @@
 <!-- CONFIG STOPS HERE -->
 
 
+<!-- STYLE DEFINITIONS -->
+<!ENTITY st_col_shallow "#E4F1FB">
+<!ENTITY st_col_deep "#FFFFFF">
+<!ENTITY st_col_depthcontour "#08A6E8">
+<!ENTITY st_col_bg "#F9EFCA">
+<!ENTITY st_col_annotation "#9E368B">
+<!ENTITY st_col_shiplane "&st_col_annotation;">
+<!ENTITY st_opa_shiplane "0.1">
+<!-- -->
+
 
 <!ENTITY db_definition_inc SYSTEM "db_definition.xml.inc">
 
 ]>
 
-<Map background-color="#666" srs="+proj=utm +zone=35 +ellps=GRS80 +units=m +no_defs">
+<Map background-color="&st_col_bg;" srs="+proj=utm +zone=35 +ellps=GRS80 +units=m +no_defs">
+
   <FontSet name="mapfonts">
     <Font face-name="DejaVu Sans Book"/>
   </FontSet>
@@ -24,30 +35,46 @@
     <Font face-name="DejaVu Sans Oblique"/>
   </FontSet>
 
+  <!-- MAA-ALUE -->
+
+  <Style name="styleMaaalue" filter-mode="first">
+    <Rule>
+      <LineSymbolizer stroke-width="1.0" stroke="#000000"/>
+    </Rule>
+  </Style>
+  <Layer name="layerMaaalue" srs="+proj=utm +zone=35 +ellps=GRS80 +units=m +no_defs ">
+    <StyleName>styleMaaalue</StyleName>
+    <Datasource>
+      &db_definition_inc;
+      <Parameter name="table">(SELECT ST_Collect(wkb_geometry) AS wkb_geometry FROM (SELECT wkb_geometry, ST_Intersects(wkb_geometry, !bbox!) AS is_within FROM syvyysalue_a) AS data WHERE is_within = 't') AS data</Parameter>
+    </Datasource>
+  </Layer>
+
+
   <!-- SYVYYSALUE -->
 
   <Style name="styleSyvyysalue" filter-mode="first">
     <Rule>
       <Filter>[mindepth] &lt;= 0</Filter>
-      <PolygonSymbolizer fill="#ccc" gamma="0.5"/>
+      <PolygonSymbolizer fill="&st_col_shallow;" gamma="0.5"/>
       <LineSymbolizer stroke-width="0"/>
     </Rule>
 
     <Rule>
       <Filter>[mindepth] &lt; 10</Filter>
-      <PolygonSymbolizer fill="#ddd" gamma="0.5"/>
+      <PolygonSymbolizer fill="&st_col_shallow;" gamma="0.5"/>
       <LineSymbolizer stroke-width="0"/>
     </Rule>
 
     <Rule>
       <Filter>[mindepth] &lt; 20</Filter>
-      <PolygonSymbolizer fill="#eee" gamma="0.5"/>
+      <PolygonSymbolizer fill="&st_col_deep;" gamma="0.5"/>
       <LineSymbolizer stroke-width="0"/>
     </Rule>
 
     <Rule>
       <Filter>[mindepth] &gt;= 20</Filter>
-      <PolygonSymbolizer fill="#fff" gamma="0.5"/>
+      <PolygonSymbolizer fill="&st_col_deep;" gamma="0.5"/>
       <LineSymbolizer stroke-width="0"/>
     </Rule>
   </Style>
@@ -65,11 +92,19 @@
   <Style name="styleSyvyyskayra" filter-mode="first">
     <Rule>
       <Filter>[depth] = 3.0</Filter>
-      <LineSymbolizer stroke-width="0.5" stroke="#666" stroke-dasharray="2,4"/>
+      <LineSymbolizer stroke-width="0.5" stroke="&st_col_depthcontour;" stroke-dasharray="2,4"/>
     </Rule>
     <Rule>
       <Filter>[depth] = 6.0</Filter>
-      <LineSymbolizer stroke-width="0.5" stroke="#666" stroke-dasharray="5,2"/>
+      <LineSymbolizer stroke-width="0.5" stroke="&st_col_depthcontour;" stroke-dasharray="5,2"/>
+    </Rule>
+    <Rule>
+      <Filter>[depth] = 10.0</Filter>
+      <LineSymbolizer stroke-width="0.5" stroke="&st_col_depthcontour;"/>
+    </Rule>
+    <Rule>
+      <Filter>[depth] = 20.0</Filter>
+      <LineSymbolizer stroke-width="0.5" stroke="&st_col_depthcontour;"/>
     </Rule>
   </Style>
 
@@ -87,9 +122,9 @@
   <Style name="styleVaylaalue" filter-mode="first">
     <Rule>
       <Filter>[vayalue_sy] &gt;= 8</Filter>
-      <PolygonSymbolizer fill="#000" fill-opacity="0.1" gamma="0.0" comp-op="multiply"/>
-      <!-- <LineSymbolizer stroke="#000" stroke-width="1.0" stroke-dasharray="1,6" /> -->
-      <!--<TextSymbolizer size="14" fontset-name="mapfonts_i" margin="10" 
+      <PolygonSymbolizer fill="&st_col_shiplane;" fill-opacity="&st_opa_shiplane;" gamma="0.5"/>
+      <!-- <LineSymbolizer stroke="&st_col_shiplane;" stroke-width="0.5" stroke-dasharray="1,6" /> -->
+      <!-- <TextSymbolizer size="14" fontset-name="mapfonts_i" margin="10" 
         placement="interior">"|"+[haraus_syv]+"|"</TextSymbolizer>-->
     </Rule>
   </Style>
@@ -106,7 +141,7 @@
 
   <Style name="styleTaululinja" filter-mode="first">
     <Rule>
-      <LineSymbolizer stroke-width="1.0" stroke="#555" stroke-dasharray="7,5"/>
+      <LineSymbolizer stroke-width="0.7" stroke="#555" stroke-dasharray="7,5"/>
       <!-- <TextSymbolizer placement="line" vertical-alignment="middle"
         fontset-name="mapfonts" fill="black" placement-type="list">
         <Format size="12" halo-radius="0.5">[kulkusyv1]</Format>
@@ -126,22 +161,32 @@
 
   <Style name="styleNavigointilinja" filter-mode="first">
     <Rule>
-      <Filter>[length] &gt; 1000 and [tosisuunta] &gt; -1</Filter>
-      <LineSymbolizer stroke-width="1.0" stroke="#000" stroke-opacity="0.65"/>
+      <Filter>[navlin_syv] &gt; 2.0 and [length] &gt; 1000 and [tosisuunta] &gt; -1</Filter>
+      <LineSymbolizer stroke-width="0.7" stroke="#000" stroke-opacity="0.65"/>
       <TextSymbolizer placement="line" vertical-alignment="middle"
-        fontset-name="mapfonts" fill="black" placement-type="list" dy="-7" opacity="0.65"
+        fontset-name="mapfonts" fill="&st_col_annotation;" placement-type="list" dy="-7" opacity="0.65"
         label-position-tolerance="10" max-char-angle-delta="0" margin="10"
         minimum-path-length="50">
-        <Format size="12" halo-radius="0.5">[navlin_syv] + "/" + [tosisuunta]</Format>
+        <Format size="12">[navlin_syv] + "/" + [tosisuunta]</Format>
       </TextSymbolizer>
     </Rule>
     <Rule>
-      <LineSymbolizer stroke-width="1.0" stroke="#000" stroke-opacity="0.65"/>
+      <Filter>[navlin_syv] &gt; 2.0</Filter>
+      <LineSymbolizer stroke-width="0.7" stroke="#000" stroke-opacity="0.65"/>
       <TextSymbolizer placement="line" vertical-alignment="middle"
-        fontset-name="mapfonts" fill="black" placement-type="list" dy="-7" opacity="0.65"
+        fontset-name="mapfonts" fill="&st_col_annotation;" placement-type="list" dy="-7" opacity="0.65"
         label-position-tolerance="10" max-char-angle-delta="0" margin="10" 
         minimum-path-length="50">
-        <Format size="12" halo-radius="0.5">[navlin_syv]</Format>
+        <Format size="12">[navlin_syv]</Format>
+      </TextSymbolizer>
+    </Rule>
+    <Rule>
+      <LineSymbolizer stroke-width="0.7" stroke="#000" stroke-opacity="0.65" stroke-dasharray="4,4"/> 
+      <TextSymbolizer placement="line" vertical-alignment="middle"
+        fontset-name="mapfonts" fill="&st_col_annotation;" placement-type="list" dy="-7" opacity="0.65"
+        label-position-tolerance="10" max-char-angle-delta="0" margin="10" 
+        minimum-path-length="50">
+        <Format size="12">[navlin_syv]</Format>
       </TextSymbolizer>
     </Rule>
   </Style>
