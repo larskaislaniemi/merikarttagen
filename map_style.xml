@@ -161,7 +161,7 @@
 
   <Style name="styleNavigointilinja" filter-mode="first">
     <Rule>
-      <Filter>[length] &gt; 1000 and [tosisuunta] &gt; -1</Filter>
+      <Filter>[navlin_syv] &gt; 2.0 and [length] &gt; 1000 and [tosisuunta] &gt; -1</Filter>
       <LineSymbolizer stroke-width="1.0" stroke="#000" stroke-opacity="0.65"/>
       <TextSymbolizer placement="line" vertical-alignment="middle"
         fontset-name="mapfonts" fill="&st_col_annotation;" placement-type="list" dy="-7" opacity="0.65"
@@ -171,7 +171,17 @@
       </TextSymbolizer>
     </Rule>
     <Rule>
+      <Filter>[navlin_syv] &gt; 2.0</Filter>
       <LineSymbolizer stroke-width="1.0" stroke="#000" stroke-opacity="0.65"/>
+      <TextSymbolizer placement="line" vertical-alignment="middle"
+        fontset-name="mapfonts" fill="&st_col_annotation;" placement-type="list" dy="-7" opacity="0.65"
+        label-position-tolerance="10" max-char-angle-delta="0" margin="10" 
+        minimum-path-length="50">
+        <Format size="12">[navlin_syv]</Format>
+      </TextSymbolizer>
+    </Rule>
+    <Rule>
+      <LineSymbolizer stroke-width="1.0" stroke="#000" stroke-opacity="0.65" stroke-dasharray="4,4"/> 
       <TextSymbolizer placement="line" vertical-alignment="middle"
         fontset-name="mapfonts" fill="&st_col_annotation;" placement-type="list" dy="-7" opacity="0.65"
         label-position-tolerance="10" max-char-angle-delta="0" margin="10" 
