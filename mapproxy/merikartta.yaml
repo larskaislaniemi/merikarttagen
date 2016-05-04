@@ -1,0 +1,75 @@
+# -------------------------------
+# MapProxy example configuration.
+# -------------------------------
+#
+# This is a minimal MapProxy configuration.
+# See full_example.yaml and the documentation for more options.
+#
+
+# Starts the following services:
+# Demo:
+#     http://localhost:8080/demo
+# WMS:
+#     capabilities: http://localhost:8080/service?REQUEST=GetCapabilities
+# WMTS:
+#     capabilities: http://localhost:8080/wmts/1.0.0/WMTSCapabilities.xml
+#     first tile: http://localhost:8080/wmts/osm/webmercator/0/0/0.png
+# Tile service (compatible with OSM/etc.)
+#     first tile: http://localhost:8080/tiles/osm/webmercator/0/0/0.png
+# TMS:
+#     note: TMS is not compatible with OSM/Google Maps/etc.
+#     fist tile: http://localhost:8080/tms/1.0.0/osm/webmercator/0/0/0.png
+# KML:
+#     initial doc: http://localhost:8080/kml/osm/webmercator
+
+services:
+  demo:
+  tms:
+  kml:
+  wmts:
+  wms:
+    md:
+      title: Merikartta WMS
+      abstract: 'None'
+    srs: ['EPSG:3067']
+    bbox_srs: ['EPSG:3067']
+    image_formats: ['image/png']
+
+
+layers:
+  - name: merikartta
+    title: Merikartta
+    sources: [merikartta]
+  - name: merikartta_lowscale
+    title: Merikartta low scale
+    sources: [merikartta_lowscale]
+
+caches:
+  merikartta_cache:
+    grids: ['EPSG:3067']
+    sources: [merikartta]
+
+sources:
+  merikartta:
+    coverage: 
+      bbox: [50199, 6582464, 761274, 7799839]
+      srs: 'EPSG:3067'
+    type: mapnik
+    mapfile: ../map_style.xml
+    layers: [layerTaululinja, layerSyvyyspiste, layerTurvalaite, layerNavigointilinja, layerVaylaalue, layerSyvyyskayra, layerSyvyysalue, layerMaaalue]
+  merikartta_lowscale:
+    coverage: 
+      bbox: [50199, 6582464, 761274, 7799839]
+      srs: 'EPSG:3067'
+    type: mapnik
+    mapfile: ../../map_style.xml
+    layers: [layerTaululinja, layerSyvyyspiste, layerTurvalaite, layerNavigointilinja, layerVaylaalue, layerSyvyyskayra, layerSyvyysalue, layerMaaalue]
+    scale_factor: 0.5
+
+
+grids:
+    etrstm35fin:
+      srs: 'EPSG:3067'
+      bbox: [50199, 6582464, 761274, 7799839]
+
+globals:

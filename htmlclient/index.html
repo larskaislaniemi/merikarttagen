@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Single Image WMS with Proj4js</title>
+    <link rel="stylesheet" href="http://openlayers.org/en/v3.15.1/css/ol.css" type="text/css">
+    <script src="http://openlayers.org/en/v3.15.1/build/ol.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.6/proj4.js"></script>
+  </head>
+  <body>
+    <div id="map" class="map"></div>
+    <script>
+      // EPSG 3067 definition, ETRS-TM35FIN
+      proj4.defs("EPSG:3067","+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
+
+      var projection = new ol.proj.Projection({
+        code: 'EPSG:3067',
+        extent: [50199.4814, 6582464.0358, 761274.6247, 7799839.8902]
+      });
+
+      var extent = [50199.4814, 6582464.0358, 761274.6247, 7799839.8902];
+
+      var layers = [
+        new ol.layer.Tile({
+          extent: extent,
+          projection: projection,
+          source: new ol.source.TileWMS({
+            url: 'http://localhost:8080/service',
+            crossOrigin: 'anonymous',
+            attributions: '&copy; Liikennevirasto',
+            params: {
+              'LAYERS': 'merikartta',
+              'FORMAT': 'image/png'
+            },
+            serverType: 'geoserver',
+            //serverType: /** @type {ol.source.wms.ServerType} */ ('mapserver')
+          }),
+          minResolution: 5,
+          maxResolution: 15,
+        }),
+        new ol.layer.Tile({
+          extent: extent,
+          projection: projection,
+          source: new ol.source.TileWMS({
+            url: 'http://localhost:8080/service',
+            crossOrigin: 'anonymous',
+            attributions: '&copy; Liikennevirasto',
+            params: {
+              'LAYERS': 'merikartta_lowscale',
+              'FORMAT': 'image/png'
+            },
+            serverType: 'geoserver',
+            //serverType: /** @type {ol.source.wms.ServerType} */ ('mapserver')
+          }),
+          minResolution: 15,
+          maxResolution: 25,
+        })
+        
+      ];
+
+      var map = new ol.Map({
+        //controls: ol.control.defaults().extend([
+        //  new ol.control.ScaleLine()
+        //]),
+        layers: layers,
+        target: 'map',
+        view: new ol.View({
+          projection: projection,
+          center: [396403,6672892],
+          extent: extent,
+          resolutions: [20, 10],
+          zoom: 7,
+          maxZoom: 8,
+          minZoom: 7
+        })
+      });
+      //alert(map.getView().getResolution());
+    </script>
+  </body>
+</html>
