@@ -4,6 +4,7 @@
     <title>Single Image WMS with Proj4js</title>
     <link rel="stylesheet" href="http://openlayers.org/en/v3.15.1/css/ol.css" type="text/css">
     <script src="http://openlayers.org/en/v3.15.1/build/ol.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.15.1/ol.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.6/proj4.js"></script>
   </head>
   <body>
@@ -28,7 +29,7 @@
             crossOrigin: 'anonymous',
             attributions: '&copy; Liikennevirasto',
             params: {
-              'LAYERS': 'merikartta',
+              'LAYERS': 'merikartta_s025',
               'FORMAT': 'image/png'
             },
             serverType: 'geoserver',
@@ -45,7 +46,7 @@
             crossOrigin: 'anonymous',
             attributions: '&copy; Liikennevirasto',
             params: {
-              'LAYERS': 'merikartta_lowscale',
+              'LAYERS': 'merikartta_s050',
               'FORMAT': 'image/png'
             },
             serverType: 'geoserver',
@@ -53,6 +54,23 @@
           }),
           minResolution: 15,
           maxResolution: 25,
+        }),
+        new ol.layer.Tile({
+          extent: extent,
+          projection: projection,
+          source: new ol.source.TileWMS({
+            url: 'http://localhost:8080/service',
+            crossOrigin: 'anonymous',
+            attributions: '&copy; Liikennevirasto',
+            params: {
+              'LAYERS': 'merikartta_s100',
+              'FORMAT': 'image/png'
+            },
+            serverType: 'geoserver',
+            //serverType: /** @type {ol.source.wms.ServerType} */ ('mapserver')
+          }),
+          minResolution: 35,
+          maxResolution: 45,
         })
         
       ];
@@ -67,9 +85,9 @@
           projection: projection,
           center: [396403,6672892],
           extent: extent,
-          resolutions: [20, 10],
+          resolutions: [40, 20, 10],
           zoom: 7,
-          maxZoom: 8,
+          maxZoom: 9,
           minZoom: 7
         })
       });

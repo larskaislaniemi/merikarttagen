@@ -37,12 +37,15 @@ services:
 
 
 layers:
-  - name: merikartta
-    title: Merikartta
-    sources: [merikartta]
-  - name: merikartta_lowscale
-    title: Merikartta low scale
-    sources: [merikartta_lowscale]
+  - name: merikartta_s025
+    title: Merikartta 1/25000
+    sources: [merikartta_s025]
+  - name: merikartta_s050
+    title: Merikartta 1/50000
+    sources: [merikartta_s050]
+  - name: merikartta_s100
+    title: Merikartta 1/100000
+    sources: [merikartta_s100]
 
 caches:
   merikartta_cache:
@@ -50,21 +53,29 @@ caches:
     sources: [merikartta]
 
 sources:
-  merikartta:
+  merikartta_s025:
     coverage: 
       bbox: [50199, 6582464, 761274, 7799839]
       srs: 'EPSG:3067'
     type: mapnik
     mapfile: ../map_style.xml
     layers: [layerTaululinja, layerSyvyyspiste, layerTurvalaite, layerNavigointilinja, layerVaylaalue, layerSyvyyskayra, layerSyvyysalue, layerMaaalue]
-  merikartta_lowscale:
+  merikartta_s050:
     coverage: 
       bbox: [50199, 6582464, 761274, 7799839]
       srs: 'EPSG:3067'
     type: mapnik
-    mapfile: ../../map_style.xml
+    mapfile: ../map_style.xml
     layers: [layerTaululinja, layerSyvyyspiste, layerTurvalaite, layerNavigointilinja, layerVaylaalue, layerSyvyyskayra, layerSyvyysalue, layerMaaalue]
     scale_factor: 0.5
+  merikartta_s100:
+    coverage: 
+      bbox: [50199, 6582464, 761274, 7799839]
+      srs: 'EPSG:3067'
+    type: mapnik
+    mapfile: ../map_style.xml
+    layers: [layerTaululinja, layerTurvalaite, layerNavigointilinja, layerVaylaalue, layerSyvyyskayra, layerSyvyysalue, layerMaaalue]
+    scale_factor: 0.25
 
 
 grids:
