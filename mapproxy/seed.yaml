@@ -1,0 +1,16 @@
+seeds:
+  seed1:
+    caches: [merikartta_cache]
+    coverages: [alldata]
+    grids: [etrstm35fin]
+    levels:
+      from: 7
+      to: 7
+    refresh_before:
+      weeks: 1
+
+coverages:
+  alldata:
+    bbox: [50199, 6582464, 761274, 7799839]
+    srs: 'EPSG:3067'
+

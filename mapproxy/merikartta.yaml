@@ -39,18 +39,30 @@ services:
 layers:
   - name: merikartta_s025
     title: Merikartta 1/25000
-    sources: [merikartta_s025]
+    sources: [merikartta_s025_cache]
   - name: merikartta_s050
     title: Merikartta 1/50000
-    sources: [merikartta_s050]
+    sources: [merikartta_s050_cache]
   - name: merikartta_s100
     title: Merikartta 1/100000
-    sources: [merikartta_s100]
+    sources: [merikartta_s100_cache]
 
 caches:
-  merikartta_cache:
-    grids: ['EPSG:3067']
-    sources: [merikartta]
+  merikartta_s100_cache:
+    grids: [etrstm35fin]
+    sources: [merikartta_s100]
+    cache:
+      type: file
+  merikartta_s050_cache:
+    grids: [etrstm35fin]
+    sources: [merikartta_s050]
+    cache:
+      type: file
+  merikartta_s025_cache:
+    grids: [etrstm35fin]
+    sources: [merikartta_s025]
+    cache:
+      type: file
 
 sources:
   merikartta_s025:
