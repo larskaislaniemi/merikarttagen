@@ -1,0 +1,10 @@
+div.warning {
+	color: #eee;
+	background-color: #c00;
+	font-weight: bold;
+}
+
+div.warning a {
+	color: #fff;
+}
+

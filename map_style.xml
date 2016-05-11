@@ -14,7 +14,8 @@
 <!ENTITY st_col_shallow "#E4F1FB">
 <!ENTITY st_col_deep "#FFFFFF">
 <!ENTITY st_col_depthcontour "#08A6E8">
-<!ENTITY st_col_bg "#F9EFCA">
+<!ENTITY st_col_bg "&st_col_land;"> 
+<!ENTITY st_col_land "#F9EFCA">
 <!ENTITY st_col_annotation "#9E368B">
 <!ENTITY st_col_shiplane "&st_col_annotation;">
 <!ENTITY st_opa_shiplane "0.1">
@@ -39,14 +40,31 @@
 
   <Style name="styleMaaalue" filter-mode="first">
     <Rule>
-      <LineSymbolizer stroke-width="1.0" stroke="#000000"/>
+      <!-- if land was plotted correctly: <PolygonSymbolizer fill="&st_col_land;" gamma="1.0"/> -->
+      <LineSymbolizer stroke-width="1.0" stroke="#000000"/> 
     </Rule>
   </Style>
   <Layer name="layerMaaalue" srs="+proj=utm +zone=35 +ellps=GRS80 +units=m +no_defs ">
     <StyleName>styleMaaalue</StyleName>
     <Datasource>
       &db_definition_inc;
-      <Parameter name="table">(SELECT ST_Collect(wkb_geometry) AS wkb_geometry FROM (SELECT wkb_geometry, ST_Intersects(wkb_geometry, !bbox!) AS is_within FROM syvyysalue_a) AS data WHERE is_within = 't') AS data</Parameter>
+      <Parameter name="table">
+        (
+          SELECT ST_Collect(wkb_geometry) AS wkb_geometry FROM syvyysalue_a WHERE ST_Intersects(wkb_geometry, !bbox!) = 't'
+        ) 
+        AS data
+      </Parameter>
+      <!-- This would extract non-sea regions ... 
+      <Parameter name="table">
+        (
+          SELECT ST_Difference ('BOX3D(0 0, 1000000 100000000)'::box3d, indomain.wkb_geometry) AS wkb_geometry FROM 
+          (
+            SELECT ST_Collect(wkb_geometry) AS wkb_geometry FROM syvyysalue_a WHERE ST_Intersects(wkb_geometry, !bbox!) = 't'
+          ) 
+          AS indomain
+        ) 
+        AS data</Parameter>
+        -->
     </Datasource>
   </Layer>
 
