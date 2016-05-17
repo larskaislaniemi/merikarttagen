@@ -14,12 +14,12 @@ var lvAttributionText = '&copy; Liikennevirasto. Aineistolisenssi Liikennevirast
 // EPSG 3067 definition, ETRS-TM35FIN
 proj4.defs("EPSG:3067","+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
 
+var extent = [50199.4814, 6582464.0358, 761274.6247, 7799839.8902];
+
 var projection = new ol.proj.Projection({
   code: 'EPSG:3067',
-  extent: [50199.4814, 6582464.0358, 761274.6247, 7799839.8902]
+  extent: extent
 });
-
-var extent = [150000,6650000,720000,6885000]
 
 var layers = [
   new ol.layer.Tile({
@@ -305,6 +305,9 @@ var ctrlTextBox = new TextControl({
   elementid: "infobox"
 
 });
+ctrlTextBox.ctrlElement.innerHTML = "<div>Click the <b>?</b> button " +
+  " to choose action: <b>M</b> – make/modify markings; <b>S</b> – select " +
+  "markings; <b>D</b> – download map in PDF format</div>";
 
 function clearInteractions() {
   map.removeInteraction(selectInteraction);
@@ -312,6 +315,7 @@ function clearInteractions() {
   map.removeInteraction(drawInteraction);
   map.removeInteraction(modifyInteraction);
   document.getElementById('mapOptionsForm').style.display = 'none';
+  ctrlDeleteFeature.element.style.display = 'none';
 }
 
 var modeControlOptions = {
@@ -323,6 +327,8 @@ var modeControlOptions = {
   switchaction: function(c) { 
     if (c.currentmode == 0) {
       clearInteractions();
+      ctrlTextBox.ctrlElement.innerHTML = "<div>Click the <b>?</b> button " +
+        " to choose action: <b>M</b> – make/modify markings; <b>S</b> – select markings; <b>D</b> – download map in PDF format</div>";
     } else if (c.currentmode == 1) {
       clearInteractions();
 
@@ -340,6 +346,8 @@ var modeControlOptions = {
       selectInteraction = new ol.interaction.Select();
       selectInteraction.on('select', selectEventHandler);
       c.getMap().addInteraction(selectInteraction);
+
+      ctrlDeleteFeature.element.style.display = 'block';
 
       ctrlTextBox.ctrlElement.innerHTML = "<div><u>Click</u> a marking to measure " +
         "its length.</div>"
@@ -421,6 +429,7 @@ var ctrlDeleteFeature = new ActionControl({
     }
   }
 });
+ctrlDeleteFeature.element.style.display = 'none';
 
 var map = new ol.Map({
   //controls: ol.control.defaults().extend([

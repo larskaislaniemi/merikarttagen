@@ -13,17 +13,18 @@
   </head>
   <body>
     
-    <div id="license" class="warning">Tämän sivun kartat ovat <a href="http://www.liikennevirasto.fi/avoindata/kayttoehdot/merikartoitusaineiston-lisenssi">Liikenneviraston merikartoitusaineiston lisenssin</a> alaisia. Karttoja ei ole tarkoitettu navigointitarkoituksiin. Karttojen ajantasaisuutta ei taata, ja kartoista saattaa puuttua elementtejä tai ne saattavat olla piirtyneinä virheellisesti. <a href="javascript:" onClick="document.getElementById('license').innerHTML='';">[OK – sulje]</a></div>
+    <div id="license" class="warning">Tämän sivun kartat ovat <a href="http://www.liikennevirasto.fi/avoindata/kayttoehdot/merikartoitusaineiston-lisenssi">Liikenneviraston merikartoitusaineiston lisenssin</a> alaisia. Karttoja ei ole tarkoitettu navigointitarkoituksiin. Karttojen ajantasaisuutta ei taata, ja kartoista saattaa puuttua elementtejä tai ne saattavat olla piirtyneinä virheellisesti. Kartta-aineisto on ladattu Liikenneviraston tietokannasta 15.5.2016. <a href="javascript:" onClick="document.getElementById('license').innerHTML='';">[OK – sulje]</a></div>
     
     <div id="map" class="map"></div>
 
   <div>
-    <button id="exportFeaturesButton" value="Export markings (GeoJSON)">Export markings (GeoJSON)</button>
-    <span id="generatingMapText" style="display: none;">[Generating map...]</span>
+    <button style="display: none;" id="exportFeaturesButton" value="Export markings (GeoJSON)">Export markings (GeoJSON)</button>
+    <span id="generatingMapText" style="display: none; color: red;">[Generating map, this will take a while ...]</span>
 
     <a href="" style="display: none;" id="downloadMapLink">Save map</a>
 
     <form id="mapOptionsForm" style="display: none;">
+      PDF options:
       <select name="PDFPaper" id="PDFPaperSelect">
         <option value="A4">A4</option>
         <option value="A3">A3</option>

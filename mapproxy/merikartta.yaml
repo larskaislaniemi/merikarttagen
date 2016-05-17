@@ -93,6 +93,6 @@ sources:
 grids:
     etrstm35fin:
       srs: 'EPSG:3067'
-      bbox: [50199, 6582464, 761274, 7799839]
+      bbox: [62000,6606000,732911,7776460]
 
 globals:
