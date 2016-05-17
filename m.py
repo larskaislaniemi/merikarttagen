@@ -8,6 +8,7 @@ import tempfile
 import simplejson
 import cherrypy
 import zipfile
+import os
 
 def rotatePaper(size):
 	newsize = [0,0]
@@ -172,6 +173,9 @@ class getMap(object):
 	def index(self):
 		raise cherrypy.HTTPRedirect('/')
 
+	def serve_complete(self):
+		os.unlink(cherrypy.request.servedFileName)
+
 	@cherrypy.expose
 	@cherrypy.tools.json_in()
 	def q(self):
@@ -198,6 +202,8 @@ class getMap(object):
 
 		outfiles = getPDF(options=options, featurefile=geojsonfn)
 
+		os.unlink(geojsonfn)
+
 
 		if len(outfiles) > 1:
 			mime = "application/zip"
@@ -207,12 +213,19 @@ class getMap(object):
 			for ifile in range(len(outfiles)):
 				print (ifile)
 				zfile.write(outfiles[ifile], arcname="map_{}.pdf".format(ifile))
-			
+
 			zfile.close()
 
+			for ifile in range(len(outfiles)):
+				os.unlink(outfiles[ifile])
+				
+			cherrypy.request.servedFileName = zipfilename
+			cherrypy.request.hooks.attach('before_finalize', self.serve_complete)
 			return cherrypy.lib.static.serve_file(zipfilename, mime)
 		else:
 			mime = "application/pdf"
+			cherrypy.request.servedFileName = outfiles[0]
+			cherrypy.request.hooks.attach('before_finalize', self.serve_complete)
 			return cherrypy.lib.static.serve_file(outfiles[0], mime)
 
 def CORS():
