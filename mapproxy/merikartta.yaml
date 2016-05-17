@@ -67,14 +67,14 @@ caches:
 sources:
   merikartta_s025:
     coverage: 
-      bbox: [150000,6650000,720000,6885000]
+      bbox: [62000,6606000,732911,7776460]
       srs: 'EPSG:3067'
     type: mapnik
     mapfile: ../map_style.xml
     layers: [layerTaululinja, layerSyvyyspiste, layerTurvalaite, layerNavigointilinja, layerVaylaalue, layerSyvyyskayra, layerSyvyysalue, layerMaaalue]
   merikartta_s050:
     coverage: 
-      bbox: [150000,6650000,720000,6885000]
+      bbox: [62000,6606000,732911,7776460]
       srs: 'EPSG:3067'
     type: mapnik
     mapfile: ../map_style.xml
@@ -82,7 +82,7 @@ sources:
     scale_factor: 0.5
   merikartta_s100:
     coverage: 
-      bbox: [150000,6650000,720000,6885000]
+      bbox: [62000,6606000,732911,7776460]
       srs: 'EPSG:3067'
     type: mapnik
     mapfile: ../map_style.xml

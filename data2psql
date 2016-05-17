@@ -1,10 +1,16 @@
 #!/bin/bash
 
+DBNAME=meri
+HOST=localhost
+PORT=5432
+USER=$1
+PW=$2
+
 #updatestring=""
 for f in *.xml
 do 
     #ogr2ogr $updatestring -append -f SQLite $FILENAME $f -dsco SPATIALITE=yes
-    ogr2ogr -f PostgreSQL -overwrite PG:"dbname='meri' host='localhost' port='5432' user='meri' password='meri123'" $f 
+    ogr2ogr -f PostgreSQL -overwrite PG:"dbname='$DBNAME' host='$HOST' port='$PORT' user='$USER' password='$PW'" $f 
     #updatestring="-update"
 done
 

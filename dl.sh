@@ -13,6 +13,8 @@ do
     then
         break
     fi
-    curl -o ${srcdb}_${layer}.xml "https://extranet.liikennevirasto.fi/inspirepalvelu/${srcdb}/wfs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=${srcdb}:${layer}&SRSNAME=EPSG:3067&BBOX=${bbox}"
+    URL="https://extranet.liikennevirasto.fi/inspirepalvelu/${srcdb}/wfs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=${srcdb}:${layer}&SRSNAME=EPSG:3067&BBOX=${bbox}"
+    echo Downloading $URL ...
+    curl -o ${srcdb}_${layer}.xml "$URL"
 done
 

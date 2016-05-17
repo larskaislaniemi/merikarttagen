@@ -4,7 +4,7 @@
 <!ENTITY db_type "postgis">
 <!ENTITY db_host "localhost">
 <!ENTITY db_user "meri">
-<!ENTITY db_password "meri123">
+<!ENTITY db_password "Kissa123">
 <!ENTITY db_dbname "meri">
 <!ENTITY db_geom_field "wkb_geometry">
 <!-- CONFIG STOPS HERE -->
