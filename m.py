@@ -7,6 +7,7 @@ import sys
 import tempfile
 import simplejson
 import cherrypy
+import zipfile
 
 def rotatePaper(size):
 	newsize = [0,0]
@@ -54,7 +55,14 @@ def getPDF(options, featurefile):
 	#paper
 	output_type = 'pdf'
 	
-	scale = 1.0/50000.0
+	if options['scale'] == "100000":
+		scale = 1.0/100000.0
+	elif options['scale'] == "50000":
+		scale = 1.0/50000.0
+	elif options['scale'] == "25000":
+		scale = 1.0/25000.0
+	else:
+		raise Exception("no such scale")
 
 	if output_type == 'pdf':
 		dpi = dpi_ref
@@ -81,9 +89,8 @@ def getPDF(options, featurefile):
 	elif useCustomPaperSize:
 		paper_size = np.array(options['customPaperSize'])
 	else:
-		paper_size = np.array(PAPERS[options['paperSize']])
+		paper_size = np.array(landscapePaper(PAPERS[options['paperSize']]))
 
-	print (paper_size)
 
 	paper_size_inch = np.array(paper_size) * 100.0 / 2.54
 	paper_px = paper_size_inch * dpi
@@ -96,6 +103,8 @@ def getPDF(options, featurefile):
 	scale_factor = dpi / dpi_ref
 
 	ntile = np.ceil(map_px / paper_px)
+	
+	print (" *** ", paper_size, onePageOnly, scale, ntile)
 	
 	paper_covers_px = ntile * paper_px
 	paper_covers_m  = ntile * paper_size / scale
@@ -126,7 +135,6 @@ def getPDF(options, featurefile):
 			m.zoom_to_box(extent)
 
 			mark_ds = mapnik.GeoJSON(file=featurefile, layer_by_index=1)
-			print (mark_ds.envelope())
 			mark_lyr = mapnik.Layer('Markings')
 			mark_lyr.srs = '+proj=utm +zone=35 +ellps=GRS80 +units=m +no_defs'
 			mark_lyr.datasource = mark_ds
@@ -190,8 +198,22 @@ class getMap(object):
 
 		outfiles = getPDF(options=options, featurefile=geojsonfn)
 
-		mime = 'application/octet-stream'
-		return cherrypy.lib.static.serve_file(outfiles[0], mime)
+
+		if len(outfiles) > 1:
+			mime = "application/zip"
+			tmpfn = tempfile.NamedTemporaryFile().name
+			zipfilename = "{}.{}".format(tmpfn, "zip")
+			zfile = zipfile.ZipFile(zipfilename, mode="w", compression=zipfile.ZIP_STORED)
+			for ifile in range(len(outfiles)):
+				print (ifile)
+				zfile.write(outfiles[ifile], arcname="map_{}.pdf".format(ifile))
+			
+			zfile.close()
+
+			return cherrypy.lib.static.serve_file(zipfilename, mime)
+		else:
+			mime = "application/pdf"
+			return cherrypy.lib.static.serve_file(outfiles[0], mime)
 
 def CORS():
 	cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"

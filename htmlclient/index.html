@@ -17,8 +17,25 @@
     
     <div id="map" class="map"></div>
 
-    <div><button id="exportFeaturesButton" value="Export markings (GeoJSON)">Export markings (GeoJSON)</button></div>
-    <div><button id="downloadMapButton" value="Download map">Download map</button><a href="" id="downloadMapLink">Download</a></div>
+  <div>
+    <button id="exportFeaturesButton" value="Export markings (GeoJSON)">Export markings (GeoJSON)</button>
+    <span id="generatingMapText" style="display: none;">[Generating map...]</span>
+
+    <a href="" style="display: none;" id="downloadMapLink">Save map</a>
+
+    <form id="mapOptionsForm" style="display: none;">
+      <select name="PDFPaper" id="PDFPaperSelect">
+        <option value="A4">A4</option>
+        <option value="A3">A3</option>
+        <option value="full">Fit map</option>
+      </select>
+      <select name="PDFScale" id="PDFScaleSelect">
+        <option value="25000">1:25000</option>
+        <option value="50000">1:50000</option>
+        <option value="100000">1:100000</option>
+      </select>
+    </form>
+  </div>
 
     <script src="map.js"></script>
 
