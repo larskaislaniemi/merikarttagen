@@ -130,7 +130,7 @@
     <StyleName>styleSyvyyskayra</StyleName>
     <Datasource>
       &db_definition_inc;
-      <Parameter name="table">syvyyskayra_v</Parameter>
+      <Parameter name="table">(SELECT * FROM syvyyskayra_v WHERE depth IN (3, 6, 10, 20)) AS data</Parameter>
     </Datasource>
   </Layer>
 
@@ -151,7 +151,23 @@
     <StyleName>styleVaylaalue</StyleName>
     <Datasource>
       &db_definition_inc;
-      <Parameter name="table">vaylaalueet</Parameter>
+      <Parameter name="table">(SELECT * FROM vaylaalueet WHERE vayalue_sy >= 8) AS data</Parameter>
+    </Datasource>
+  </Layer>
+
+  <!-- RANTARAKENTEET -->
+
+  <Style name="styleRantarakenne" filter-mode="first">
+    <Rule>
+      <LineSymbolizer stroke-width="1.0" stroke="#000"/>
+    </Rule>
+  </Style>
+
+  <Layer name="layerRantarakenne" srs="+proj=utm +zone=35 +ellps=GRS80 +units=m +no_defs ">
+    <StyleName>styleRantarakenne</StyleName>
+    <Datasource>
+      &db_definition_inc;
+      <Parameter name="table">rantarakenteet_v</Parameter>
     </Datasource>
   </Layer>
 
@@ -307,7 +323,7 @@
     <StyleName>styleTurvalaite</StyleName>
     <Datasource>
       &db_definition_inc;
-      <Parameter name="table">turvalaitteet</Parameter>
+      <Parameter name="table">(SELECT * FROM turvalaitteet WHERE ty_jnr IN (3,7,9,10)) AS data</Parameter>
     </Datasource>
   </Layer>
 

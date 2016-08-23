@@ -71,14 +71,14 @@ sources:
       srs: 'EPSG:3067'
     type: mapnik
     mapfile: ../map_style.xml
-    layers: [layerTaululinja, layerSyvyyspiste, layerTurvalaite, layerNavigointilinja, layerVaylaalue, layerSyvyyskayra, layerSyvyysalue, layerMaaalue]
+    layers: [layerTaululinja, layerSyvyyspiste, layerTurvalaite, layerNavigointilinja, layerVaylaalue, layerSyvyyskayra, layerRantarakenne, layerSyvyysalue, layerMaaalue]
   merikartta_s050:
     coverage: 
       bbox: [62000,6606000,732911,7776460]
       srs: 'EPSG:3067'
     type: mapnik
     mapfile: ../map_style.xml
-    layers: [layerTaululinja, layerSyvyyspiste, layerTurvalaite, layerNavigointilinja, layerVaylaalue, layerSyvyyskayra, layerSyvyysalue, layerMaaalue]
+    layers: [layerTaululinja, layerSyvyyspiste, layerTurvalaite, layerNavigointilinja, layerVaylaalue, layerSyvyyskayra, layerRantarakenne, layerSyvyysalue, layerMaaalue]
     scale_factor: 0.5
   merikartta_s100:
     coverage: 
@@ -86,7 +86,7 @@ sources:
       srs: 'EPSG:3067'
     type: mapnik
     mapfile: ../map_style.xml
-    layers: [layerTaululinja, layerTurvalaite, layerNavigointilinja, layerVaylaalue, layerSyvyyskayra, layerSyvyysalue, layerMaaalue]
+    layers: [layerTaululinja, layerTurvalaite, layerNavigointilinja, layerVaylaalue, layerSyvyyskayra, layerRantarakenne, layerSyvyysalue, layerMaaalue]
     scale_factor: 0.25
 
 
