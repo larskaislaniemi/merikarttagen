@@ -18,7 +18,8 @@ var extent = [50199.4814, 6582464.0358, 761274.6247, 7799839.8902];
 
 var projection = new ol.proj.Projection({
   code: 'EPSG:3067',
-  extent: extent
+  extent: extent,
+  worldExtent: extent
 });
 
 var layers = [
@@ -431,32 +432,6 @@ var ctrlDeleteFeature = new ActionControl({
 });
 ctrlDeleteFeature.element.style.display = 'none';
 
-var map = new ol.Map({
-  //controls: ol.control.defaults().extend([
-  //  new ol.control.ScaleLine()
-  //]),
-  layers: layers,
-  target: 'map',
-  view: new ol.View({
-    projection: projection,
-    center: [396403,6672892],
-    extent: extent,
-    resolutions: [40, 20, 10],
-    zoom: 7,
-    maxZoom: 9,
-    minZoom: 7
-  }),
-  controls: [ ctrlScaleLine, ctrlAttribution, 
-    ctrlMousePosition, ctrlZoom, ctrlChooseMode,
-    ctrlTextBox, ctrlDeleteFeature ]
-});
-
-featureOverlay.setMap(map);
-document.getElementById('exportFeaturesButton').addEventListener("click",
-    function () { 
-      download('markings.json', featuresToJSON());
-    });
-
 function downloadLink(content, name, type, linkid) {
   var a = document.getElementById(linkid);
   var file = new Blob([content], {type: type});
@@ -515,8 +490,43 @@ function downloadPDFMap() {
   return true;
 }
 
+
+
+
+
+var map = new ol.Map({
+  //controls: ol.control.defaults().extend([
+  //  new ol.control.ScaleLine()
+  //]),
+  layers: layers,
+  target: 'map',
+  view: new ol.View({
+    projection: projection,
+    center: [396403,6672892],
+    extent: extent,
+    resolutions: [40, 20, 10],
+    zoom: 7,
+    maxZoom: 9,
+    minZoom: 7
+  }),
+  controls: [ ctrlScaleLine, ctrlAttribution, 
+    ctrlMousePosition, ctrlZoom, ctrlChooseMode,
+    ctrlTextBox, ctrlDeleteFeature ]
+});
+
+featureOverlay.setMap(map);
+document.getElementById('exportFeaturesButton').addEventListener("click",
+    function () { 
+      download('markings.json', featuresToJSON());
+    });
+
 document.getElementById('downloadMapLink').addEventListener("click",
     function() {
       this.style.display = 'none';
     }
 );
+
+//var mapGraticule = new ol.Graticule({
+//  projection: projection
+//});
+//mapGraticule.setMap(map);

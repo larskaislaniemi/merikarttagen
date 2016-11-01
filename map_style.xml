@@ -361,4 +361,22 @@
     </Datasource>
   </Layer>
 
+  <!-- KIVET -->
+
+  <Style name="styleKivi" filter-mode="first">
+    <Rule>
+      <!-- <MinScaleDenominator>0</MinScaleDenominator>
+      <MaxScaleDenominator>70000</MaxScaleDenominator> -->
+      <PointSymbolizer file="symbols/seamark_lead.svg" allow-overlap="true"/>
+    </Rule>
+  </Style>
+
+  <Layer name="layerKivi" srs="+proj=utm +zone=35 +ellps=GRS80 +units=m +no_defs ">
+    <StyleName>styleKivi</StyleName>
+    <Datasource>
+      &db_definition_inc;
+      <Parameter name="table">vesikivi</Parameter>
+    </Datasource>
+  </Layer>
+
 </Map>

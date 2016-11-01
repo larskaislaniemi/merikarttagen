@@ -162,6 +162,9 @@ def getPDF(options, featurefile):
 				mapnik.render(m,im,scale_factor)
 				im.save(outfile)
 			elif output_type == 'pdf':
+				#surface = cairo.PDFSurface(outfile, m.width, m.height)
+				#mapnik.render(m, surface)
+				#surface.finish()
 				mapnik.render_to_file(m, outfile)
 			elif output_type == 'svg':
 				mapnik.render_to_file(m, outfile)
@@ -226,6 +229,7 @@ class getMap(object):
 			mime = "application/pdf"
 			cherrypy.request.servedFileName = outfiles[0]
 			cherrypy.request.hooks.attach('before_finalize', self.serve_complete)
+			print (" >> Returning: ", outfiles)
 			return cherrypy.lib.static.serve_file(outfiles[0], mime)
 
 def CORS():
